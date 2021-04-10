@@ -1,0 +1,10 @@
+<div class="fa-app">
+  <mat-toolbar color="primary" class="fa-app__toolbar">
+    <a [routerLink]="['']"><img src="/assets/logo-256.png" class="fa-app__toolbar__logo" /></a>
+    <span class="fa-app__toolbar__title">Fusor Admin</span>
+    <a mat-button routerLink="">Home</a>
+    <a mat-button routerLink="flow">Flow</a>
+  </mat-toolbar>
+
+  <router-outlet></router-outlet>
+</div>

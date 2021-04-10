@@ -1,0 +1,11 @@
+.fa-app {
+  &__toolbar {
+    &__logo {
+      height: 50px;
+      margin-right: 10px;
+    }
+    &__title {
+      margin-right: 30px;
+    }
+  }
+}
