@@ -1,1 +1,17 @@
-<fa-rete-canvas></fa-rete-canvas>
+<div class="fa-rete-designer">
+  <mat-toolbar color="white" class="fa-rete-designer__toolbar">
+    <a mat-flat-button color="accent" (click)="new()">
+      <mat-icon aria-hidden="false" aria-label="New flow">add box</mat-icon>
+      <span>New</span>
+    </a>
+    <a mat-flat-button color="accent" (click)="open()">
+      <mat-icon aria-hidden="false" aria-label="Open flow">unarchive</mat-icon>
+      <span>Open</span>
+    </a>
+    <a mat-flat-button color="accent" (click)="save()">
+      <mat-icon aria-hidden="false" aria-label="Save flow">save</mat-icon>
+      <span>Save</span>
+    </a>
+  </mat-toolbar>
+  <fa-rete-canvas [flow]="currentFlow" (update)="onUpdate($event)"></fa-rete-canvas>
+</div>

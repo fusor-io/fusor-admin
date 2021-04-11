@@ -28,7 +28,6 @@ export class StringNgControl implements OnInit {
   }
   
   ngOnInit() {
-    console.log({ value: this.value, hint: this.hint });
     this.mounted();
   }
 

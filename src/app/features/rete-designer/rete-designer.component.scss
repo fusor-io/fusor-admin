@@ -1,0 +1,11 @@
+.fa-rete-designer {
+  &__toolbar {
+    a {
+      margin-right: 10px;
+      .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

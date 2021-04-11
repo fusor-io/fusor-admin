@@ -1,12 +1,23 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Engine, Input, NodeEditor, Output } from 'rete';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import * as Rete from 'rete';
 import { AngularRenderPlugin } from 'rete-angular-render-plugin';
 import AreaPlugin from 'rete-area-plugin';
 import ConnectionPlugin from 'rete-connection-plugin';
 import ContextMenuPlugin from 'rete-context-menu-plugin';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-import { AddComponent } from './components/add-component';
-import { NumComponent } from './components/number-component';
+import { JsonMap } from './../../../../type/json.type';
+import { MathOperationHandler, ParamEmitterComponent } from './components';
 
 @Component({
   selector: 'fa-rete-canvas',
@@ -15,68 +26,87 @@ import { NumComponent } from './components/number-component';
   encapsulation: ViewEncapsulation.None,
 })
 export class ReteCanvasComponent implements AfterViewInit {
-  @ViewChild('nodeEditor', { static: true }) private _rete!: ElementRef;
-  editor!: NodeEditor;
+  @Input()
+  set flow(value: JsonMap | undefined) {
+    this._flow$.next(value);
+  }
+  get flow(): JsonMap | undefined {
+    return this._flow$.value;
+  }
 
-  constructor() {}
+  @Output() update = new EventEmitter();
+
+  @ViewChild('nodeEditor', { static: true }) private _rete!: ElementRef;
+
+  editor!: Rete.NodeEditor;
+
+  private readonly _isReady$ = new BehaviorSubject<boolean>(false);
+  private readonly _flow$ = new BehaviorSubject<JsonMap | undefined>(undefined);
+
+  components = [new ParamEmitterComponent(), new MathOperationHandler()];
+
+  constructor() {
+    combineLatest([this._isReady$.pipe(filter(Boolean)), this._flow$]).subscribe(async ([, flow]) => {
+      this.editor.clear();
+      if (flow) {
+        await this.editor.fromJSON(flow as any);
+        // } else {
+        //   await this.demoFlow();
+      }
+
+      this.editor.view.resize();
+      this.editor.trigger('process');
+      AreaPlugin.zoomAt(this.editor);
+    });
+  }
 
   async ngAfterViewInit(): Promise<void> {
     const container = this._rete.nativeElement;
 
-    const components = [new NumComponent(), new AddComponent()];
+    const editor = new Rete.NodeEditor('demo@0.2.0', container);
+    this.editor = editor;
 
-    const editor = new NodeEditor('demo@0.2.0', container);
     editor.use(ConnectionPlugin);
-    console.log('AngularRenderPlugin', AngularRenderPlugin);
+
     editor.use(AngularRenderPlugin);
     editor.use(ContextMenuPlugin);
 
-    const engine = new Engine('demo@0.2.0');
+    const engine = new Rete.Engine('demo@0.2.0');
 
-    components.map((component) => {
+    this.components.map(component => {
       editor.register(component);
       engine.register(component);
     });
 
-    const n1 = await components[0].createNode({ num: 2 });
-    const n2 = await components[0].createNode({ num: 0 });
-    const add = await components[1].createNode();
+    editor.on(['process', 'nodecreated', 'noderemoved', 'connectioncreated', 'connectionremoved'], async () => {
+      await engine.abort();
+      const json = editor.toJSON();
+      await engine.process(json);
+      this.update.emit(json);
+    });
 
-    n1.position = [80, 200];
-    n2.position = [80, 400];
-    add.position = [500, 240];
+    editor.on(['nodetranslated'], async () => {
+      await engine.abort();
+      this.update.emit(editor.toJSON());
+    });
 
-    editor.addNode(n1);
-    editor.addNode(n2);
-    editor.addNode(add);
-
-    editor.connect(
-      <Output>n1.outputs.get('num'),
-      <Input>add.inputs.get('num1')
-    );
-    editor.connect(
-      <Output>n2.outputs.get('num'),
-      <Input>add.inputs.get('num2')
-    );
-
-    editor.on(
-      [
-        'process',
-        'nodecreated',
-        'noderemoved',
-        'connectioncreated',
-        'connectionremoved',
-      ],
-      (async () => {
-        await engine.abort();
-        await engine.process(editor.toJSON());
-      }) as any
-    );
-
-    editor.view.resize();
-    editor.trigger('process');
-    AreaPlugin.zoomAt(editor);
-
-    this.editor = editor;
+    this._isReady$.next(true);
   }
+
+  // async demoFlow(): Promise<void> {
+  //   const n1 = await this.components[0].createNode({ out: 2 });
+  //   const n2 = await this.components[0].createNode({ out: 0 });
+  //   const add = await this.components[1].createNode();
+
+  //   n1.position = [80, 200];
+  //   n2.position = [80, 400];
+  //   add.position = [500, 240];
+
+  //   this.editor.addNode(n1);
+  //   this.editor.addNode(n2);
+  //   this.editor.addNode(add);
+
+  //   this.editor.connect(<Rete.Output>n1.outputs.get('out'), <Rete.Input>add.inputs.get('in1'));
+  //   this.editor.connect(<Rete.Output>n2.outputs.get('out'), <Rete.Input>add.inputs.get('in2'));
+  // }
 }

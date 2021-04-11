@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Select flow</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="fill">
+    <mat-label>Select</mat-label>
+    <mat-select [formControl]="selectedFlow">
+      <mat-option *ngFor="let flow of flows$ | async" [value]="flow.key">{{ flow.key }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="selected" cdkFocusInitial>OK</button>
+</mat-dialog-actions>
