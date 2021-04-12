@@ -7,8 +7,6 @@ import { StringControl } from '../../controls/string/string-control';
 import { numSocket } from '../../sockets';
 
 export class MathOperationHandler extends Component {
-  data: any;
-
   constructor() {
     super('Handler: Math');
   }

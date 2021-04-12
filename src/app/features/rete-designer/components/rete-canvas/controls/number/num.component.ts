@@ -7,7 +7,6 @@ import { Component, Input, OnInit } from '@angular/core';
       [value]="value"
       [readonly]="readonly"
       (change)="_change($event)"
-      placeholder="hint"
     />
   `,
   styles: [
