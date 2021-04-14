@@ -16,6 +16,7 @@ import ContextMenuPlugin from 'rete-context-menu-plugin';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { ParamsFacadeService } from '../../../../stores/params';
 import { JsonMap } from '../../../../type';
 import { GateHandler, LoggerObserver, MathOperationHandler, ParamEmitterComponent } from './components';
 
@@ -43,9 +44,14 @@ export class ReteCanvasComponent implements AfterViewInit {
   private readonly _isReady$ = new BehaviorSubject<boolean>(false);
   private readonly _flow$ = new BehaviorSubject<JsonMap | undefined>(undefined);
 
-  components = [new ParamEmitterComponent(), new MathOperationHandler(), new GateHandler(), new LoggerObserver];
+  components = [
+    new ParamEmitterComponent(this._paramsFacadeService),
+    new MathOperationHandler(),
+    new GateHandler(),
+    new LoggerObserver(),
+  ];
 
-  constructor() {
+  constructor(private readonly _paramsFacadeService: ParamsFacadeService) {
     combineLatest([this._isReady$.pipe(filter(Boolean)), this._flow$]).subscribe(async ([, flow]) => {
       this.editor.clear();
       if (flow) {

@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash-es';
 import { Definition, DefinitionType } from '../../models';
 import { DefinitionFacadeService } from '../../stores/definition';
 import { DefinitionsFacadeService } from '../../stores/definitions';
+import { ParamsFacadeService } from '../../stores/params';
 import { JsonMap } from '../../type';
 import { OpenFlowDialogComponent } from './components/open-flow-dialog/open-flow-dialog.component';
 
@@ -24,11 +25,13 @@ export class ReteDesignerComponent implements OnInit {
   constructor(
     private readonly _definitionsFacadeService: DefinitionsFacadeService,
     private readonly _definitionFacadeService: DefinitionFacadeService,
+    private readonly _paramsFacadeService: ParamsFacadeService,
     private readonly _matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this._definitionsFacadeService.loadDefinitions({ type: DefinitionType.flow });
+    this._paramsFacadeService.loadParams();
   }
 
   open(): void {

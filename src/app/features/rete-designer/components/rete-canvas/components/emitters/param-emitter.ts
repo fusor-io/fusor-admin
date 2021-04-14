@@ -1,12 +1,14 @@
 import { Component, Node, NodeEditor, Output } from 'rete';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
 
+import { ParamsFacadeService } from '../../../../../../stores/params';
 import { NumControl } from '../../controls/number/number-control';
+import { SelectControl } from '../../controls/select/select-control';
 import { StringControl } from '../../controls/string/string-control';
 import { numSocket } from '../../sockets';
 
 export class ParamEmitterComponent extends Component {
-  constructor() {
+  constructor(private readonly _paramsFacadeService: ParamsFacadeService) {
     super('Emitter: Param');
   }
 
@@ -15,7 +17,9 @@ export class ParamEmitterComponent extends Component {
 
     const out1 = new Output('out', 'out', numSocket);
 
-    node.addControl(new StringControl(editor, 'nodeId', 'Node id'));
+    const nodes = this._paramsFacadeService.nodes;
+
+    node.addControl(new SelectControl(editor, 'nodeId', nodes));
     node.addControl(new StringControl(editor, 'paramId', 'Param id'));
     node.addControl(new NumControl(editor, 'out')).addOutput(out1);
   }
