@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './select.component.html',
@@ -18,7 +19,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SelectNgControl implements OnInit {
   @Input() value!: string;
-  @Input() options: string[] = [];
+  @Input() options$!: Observable<string[]>;
   @Input() readonly!: boolean;
   @Input() change!: Function;
   @Input() mounted!: Function;

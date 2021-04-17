@@ -1,3 +1,3 @@
-<select [ngModel]="value" (ngModelChange)="_change($event)">
-  <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+<select [ngModel]="value" (ngModelChange)="_change($event)" *ngIf="options$">
+  <option *ngFor="let option of options$ | async" [value]="option">{{ option }}</option>
 </select>
