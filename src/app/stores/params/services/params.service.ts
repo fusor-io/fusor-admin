@@ -11,6 +11,7 @@ export class ParamsApiService {
   constructor(private readonly _httpClient: HttpClient) {}
 
   load(): Observable<NodeParamValues> {
+    // TODO implement last-modified header logic to reduce network traffic and updates of store
     return this._httpClient.get<NodeParamValues>(`${this._api}/aggregate/filter`);
   }
 }
