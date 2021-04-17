@@ -42,7 +42,7 @@ export class ReteDesignerComponent implements OnInit {
 
   save(): void {
     if (this._currentDefinition.key && this._currentDefinition.definition) {
-      this._definitionFacadeService.saveDefinition(this._currentDefinition as Definition);
+      this._definitionFacadeService.saveDefinition(cloneDeep(this._currentDefinition) as Definition);
     } else {
       // TODO add processing for new definition
       console.log({ new: this._currentDefinition });

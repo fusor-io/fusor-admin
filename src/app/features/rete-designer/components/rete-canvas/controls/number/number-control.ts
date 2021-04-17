@@ -29,11 +29,6 @@ export class NumControl extends Control implements AngularControl {
 
   setValue(val: number) {
     this.props.value = +val;
-    try {
-      this.putData(this.key, this.props.value);
-    } catch (error) {
-      // TODO remove when issue found
-      // console.log({ val, error });
-    }
+    this.putData(this.key, this.props.value);
   }
 }

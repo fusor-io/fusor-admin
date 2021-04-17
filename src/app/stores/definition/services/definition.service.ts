@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
+import { environment } from '../../../../environments/environment';
 import { Definition } from '../../../models';
 import { DefinitionQuery } from '../type';
 
 @Injectable({ providedIn: 'root' })
 export class DefinitionApiService {
-  private readonly _api = 'http://localhost:3000';
+  private readonly _api = environment.apiUrl;
 
   constructor(private readonly _httpClient: HttpClient) {}
 

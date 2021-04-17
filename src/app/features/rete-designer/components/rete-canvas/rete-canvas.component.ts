@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -25,6 +26,7 @@ import {
   LoggerObserver,
   MathOperationHandler,
   ParamEmitterComponent,
+  SmsObserver,
 } from './components';
 
 @Component({
@@ -58,9 +60,10 @@ export class ReteCanvasComponent implements AfterViewInit {
     new ChangeCountHandler(),
     new DistinctHandler(),
     new LoggerObserver(),
+    new SmsObserver(this._httpClient),
   ];
 
-  constructor(private readonly _paramsFacadeService: ParamsFacadeService) {
+  constructor(private readonly _paramsFacadeService: ParamsFacadeService, private readonly _httpClient: HttpClient) {
     combineLatest([this._isReady$.pipe(filter(Boolean)), this._flow$]).subscribe(async ([, flow]) => {
       this.editor.clear();
       if (flow) {
