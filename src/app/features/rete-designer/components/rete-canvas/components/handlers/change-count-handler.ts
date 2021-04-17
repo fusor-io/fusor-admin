@@ -1,7 +1,7 @@
 import { Component, Input, Node, NodeEditor, Output } from 'rete';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
 
-import { NumControl } from '../../controls/number/number-control';
+import { NumControl } from '../../controls';
 import { numSocket } from '../../sockets';
 
 export class ChangeCountHandler extends Component {

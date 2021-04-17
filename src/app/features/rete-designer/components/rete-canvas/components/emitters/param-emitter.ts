@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { filterDefined } from 'src/app/utils/operators';
 
 import { ParamsFacadeService } from '../../../../../../stores/params';
+import { SelectControl } from '../../controls';
 import { NumControl } from '../../controls/number/number-control';
-import { SelectControl } from '../../controls/select/select-control';
 import { numSocket } from '../../sockets';
 
 export class ParamEmitterComponent extends Component {

@@ -1,8 +1,7 @@
 import { Component, Input, Node, NodeEditor } from 'rete';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
 
-import { NumControl } from '../../controls/number/number-control';
-import { StringControl } from '../../controls/string/string-control';
+import { NumControl, StringControl } from '../../controls';
 import { numSocket } from '../../sockets';
 
 export class LoggerObserver extends Component {

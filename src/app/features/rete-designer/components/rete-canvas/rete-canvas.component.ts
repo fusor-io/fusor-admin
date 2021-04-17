@@ -18,8 +18,7 @@ import { filter } from 'rxjs/operators';
 
 import { ParamsFacadeService } from '../../../../stores/params';
 import { JsonMap } from '../../../../type';
-import { GateHandler, LoggerObserver, MathOperationHandler, ParamEmitterComponent } from './components';
-import { ChangeCountHandler } from './components/handlers/change-count-handler';
+import { ChangeCountHandler, GateHandler, LoggerObserver, MathOperationHandler, ParamEmitterComponent } from './components';
 
 @Component({
   selector: 'fa-rete-canvas',
