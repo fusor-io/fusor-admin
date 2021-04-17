@@ -19,6 +19,7 @@ import { filter } from 'rxjs/operators';
 import { ParamsFacadeService } from '../../../../stores/params';
 import { JsonMap } from '../../../../type';
 import { GateHandler, LoggerObserver, MathOperationHandler, ParamEmitterComponent } from './components';
+import { ChangeCountHandler } from './components/handlers/change-count-handler';
 
 @Component({
   selector: 'fa-rete-canvas',
@@ -48,6 +49,7 @@ export class ReteCanvasComponent implements AfterViewInit {
     new ParamEmitterComponent(this._paramsFacadeService),
     new MathOperationHandler(),
     new GateHandler(),
+    new ChangeCountHandler(),
     new LoggerObserver(),
   ];
 
