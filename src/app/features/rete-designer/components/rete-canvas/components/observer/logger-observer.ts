@@ -2,6 +2,7 @@ import { Component, Input, Node, NodeEditor } from 'rete';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
 
 import { NumControl } from '../../controls/number/number-control';
+import { StringControl } from '../../controls/string/string-control';
 import { numSocket } from '../../sockets';
 
 export class LoggerObserver extends Component {
@@ -13,6 +14,7 @@ export class LoggerObserver extends Component {
     const editor = <NodeEditor>this.editor;
 
     const input = new Input('in', 'in', numSocket);
+    node.addControl(new StringControl(editor, 'label', 'Logger name'));
 
     input.addControl(new NumControl(editor, 'in'));
 
@@ -21,8 +23,11 @@ export class LoggerObserver extends Component {
 
   worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs) {
     const input = Number(inputs['in']?.length ? inputs['in'][0] : node.data.input);
+    const label = String(
+      node.data.label,
+    );
 
-    if (!isNaN(input)) console.log(`Logger: ${input}`);
+    if (!isNaN(input)) console.log(`Logger: [${label}] = ${input}`);
 
     const ctrl = this.editor?.nodes?.find(n => n.id === node.id)?.controls.get('preview') as NumControl;
     ctrl.setValue(input);
