@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { DefinitionsFacadeService } from '../../../../stores/definitions';
-import { Definition } from './../../../../models/definition.model';
+import { Definition, DefinitionType } from './../../../../models/definition.model';
 
 @Component({
   selector: 'fa-open-flow-dialog',
@@ -14,7 +14,9 @@ export class OpenFlowDialogComponent {
 
   readonly flows$ = this._definitionsFacadeService.definitions$;
 
-  constructor(private readonly _definitionsFacadeService: DefinitionsFacadeService) {}
+  constructor(private readonly _definitionsFacadeService: DefinitionsFacadeService) {
+    this._definitionsFacadeService.loadDefinitions({ type: DefinitionType.flow });
+  }
 
   get selected(): Definition | undefined {
     const key: string | null = this.selectedFlow.value;

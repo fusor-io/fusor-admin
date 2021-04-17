@@ -28,6 +28,7 @@ export class ParamEmitterComponent extends Component {
     const paramSelector = new SelectControl(editor, 'paramId', params$);
     const valueInput = new NumControl(editor, 'out');
 
+    // TODO find a way to unsubscribe
     combineLatest([
       nodeSelector.selectedValue$.pipe(filterDefined()),
       paramSelector.selectedValue$.pipe(filterDefined()),
@@ -38,7 +39,6 @@ export class ParamEmitterComponent extends Component {
 
     node.addControl(nodeSelector);
     node.addControl(paramSelector);
-    // node.addControl(new StringControl(editor, 'paramId', 'Param id'));
     node.addControl(valueInput).addOutput(out1);
   }
 
