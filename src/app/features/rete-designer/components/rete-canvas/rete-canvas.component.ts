@@ -27,6 +27,7 @@ import {
   MathOperationHandler,
   ParamEmitterComponent,
   SmsObserver,
+  ThrottleHandler,
 } from './components';
 
 @Component({
@@ -59,6 +60,7 @@ export class ReteCanvasComponent implements AfterViewInit {
     new GateHandler(),
     new ChangeCountHandler(),
     new DistinctHandler(),
+    new ThrottleHandler(),
     new LoggerObserver(),
     new SmsObserver(this._httpClient),
   ];

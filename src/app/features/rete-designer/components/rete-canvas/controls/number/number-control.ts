@@ -8,7 +8,7 @@ export class NumControl extends Control implements AngularControl {
   component: Type<NumberNgControl>;
   props: Record<string, unknown>;
 
-  constructor(public emitter: NodeEditor, public key: string, readonly = false) {
+  constructor(public emitter: NodeEditor, public key: string, hint = '', readonly = false) {
     super(key);
 
     this.component = NumberNgControl;
@@ -16,6 +16,7 @@ export class NumControl extends Control implements AngularControl {
       readonly,
       change: (v: any) => this.onChange(v),
       value: 0,
+      hint,
       mounted: () => {
         this.setValue(+(this.getData(key) as any) || 0);
       },

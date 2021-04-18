@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { format } from 'date-fns';
 import pupa from 'pupa';
 import { Component, Input, Node, NodeEditor } from 'rete';
 import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data';
@@ -17,11 +18,11 @@ export class SmsObserver extends Component {
 
     const input = new Input('in', 'in', numSocket);
     node.addControl(new StringControl(editor, 'recipient', '+3701122233'));
-    node.addControl(new StringControl(editor, 'text', 'Value is {in}'));
+    node.addControl(new StringControl(editor, 'text', 'Value is {in} at {now}'));
 
     input.addControl(new NumControl(editor, 'in'));
 
-    node.addInput(input).addControl(new NumControl(editor, 'preview', true));
+    node.addInput(input).addControl(new NumControl(editor, 'preview', '', true));
   }
 
   worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs) {
@@ -30,7 +31,8 @@ export class SmsObserver extends Component {
     const template = String(node.data.text);
 
     if (!isNaN(input) && recipient) {
-      const message = template ? pupa(template, { in: input }) : String(input);
+      const now = format(Date.now(), 'eee p');
+      const message = template ? pupa(template, { in: input, now }) : String(input);
       this.sendMessage(recipient, message);
     }
 

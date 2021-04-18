@@ -25,7 +25,7 @@ export class MathOperationHandler extends Component {
     node
       .addInput(inp1)
       .addInput(inp2)
-      .addControl(new NumControl(editor, 'preview', true))
+      .addControl(new NumControl(editor, 'preview', '', true))
       .addOutput(out);
   }
 

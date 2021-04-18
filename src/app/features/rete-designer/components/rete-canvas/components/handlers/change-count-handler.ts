@@ -20,7 +20,7 @@ export class ChangeCountHandler extends Component {
 
     input.addControl(new NumControl(editor, 'in'));
 
-    node.addInput(input).addControl(new NumControl(editor, 'preview', true)).addOutput(out);
+    node.addInput(input).addControl(new NumControl(editor, 'preview', '', true)).addOutput(out);
   }
 
   worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs) {
