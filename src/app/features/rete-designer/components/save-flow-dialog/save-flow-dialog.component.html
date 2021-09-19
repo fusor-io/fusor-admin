@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Save flow</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="fill">
+    <mat-label>Slug</mat-label>
+    <input matInput [formControl]="slug">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [disabled]="!slug.value" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

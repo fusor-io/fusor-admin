@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Routes } from '@angular/router';
@@ -19,6 +20,7 @@ import { NumberNgControl } from './components/rete-canvas/controls/number/num.co
 import { SelectNgControl } from './components/rete-canvas/controls/select/select.component';
 import { StringNgControl } from './components/rete-canvas/controls/string/string.component';
 import { ReteCanvasComponent } from './components/rete-canvas/rete-canvas.component';
+import { SaveFlowDialogComponent } from './components/save-flow-dialog/save-flow-dialog.component';
 import { ReteDesignerComponent } from './rete-designer.component';
 
 const routes: Routes = [
@@ -41,6 +43,7 @@ const routes: Routes = [
     MatDialogModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatInputModule,
     ReteModule,
     DefinitionServiceModule,
     DefinitionsServiceModule,
@@ -53,7 +56,7 @@ const routes: Routes = [
     NumberNgControl,
     StringNgControl,
     SelectNgControl,
-    OpenFlowDialogComponent,
+    SaveFlowDialogComponent,
   ],
   exports: [ReteModule, ReteDesignerComponent],
 })

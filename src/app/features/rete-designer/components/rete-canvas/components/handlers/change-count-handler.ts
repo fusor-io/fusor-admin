@@ -25,7 +25,7 @@ export class ChangeCountHandler extends Component {
 
   worker(node: NodeData, inputs: WorkerInputs, outputs: WorkerOutputs) {
     const input = Number(inputs['in']?.length ? inputs['in'][0] : node.data.input);
-    if (input !== this._lastInput) {
+    if (!this._equal(input, this._lastInput)) {
       this._lastInput = input;
       this._count++;
     }
@@ -35,5 +35,9 @@ export class ChangeCountHandler extends Component {
     const ctrl = this.editor?.nodes?.find(n => n.id === node.id)?.controls.get('preview') as NumControl;
     ctrl.setValue(output);
     outputs['out'] = output;
+  }
+
+  private _equal(val1: number, val2: number) {
+    return val1 === val2 || (isNaN(val1) && isNaN(val2));
   }
 }
