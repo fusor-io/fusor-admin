@@ -1,0 +1,4 @@
+<div class="page" *ngIf="config$ | async as config">
+  <div>Scan this QR code with your Fusor App to register</div>
+  <qr-code [value]="config" size="300" errorCorrectionLevel="M"></qr-code>
+</div>
